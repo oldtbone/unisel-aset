@@ -34,11 +34,6 @@ class Faculty extends Model
         'deleted_at',
     ];
 
-    public function facultyDepartments()
-    {
-        return $this->hasMany(Department::class, 'faculty_id', 'id');
-    }
-
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');

@@ -20,6 +20,11 @@ class StoreAssetLocationRequest extends FormRequest
             'name' => [
                 'string',
                 'required',
+                'unique:asset_locations',
+            ],
+            'faculty_id' => [
+                'required',
+                'integer',
             ],
         ];
     }

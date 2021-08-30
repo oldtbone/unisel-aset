@@ -54,8 +54,6 @@ class FacultyController extends Controller
     {
         abort_if(Gate::denies('faculty_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $faculty->load('facultyDepartments');
-
         return view('admin.faculties.show', compact('faculty'));
     }
 

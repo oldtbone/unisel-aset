@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use \DateTimeInterface;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,15 +24,21 @@ class Asset extends Model implements HasMedia
     ];
 
     protected $dates = [
+        'purchase_date',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
     protected $fillable = [
-        'category_id',
         'serial_number',
         'name',
+        'asset_tag',
+        'category_id',
+        'asset_model_id',
+        'room_attach_id',
+        'manufacturer_id',
+        'purchase_date',
         'status_id',
         'location_id',
         'notes',
@@ -58,9 +65,29 @@ class Asset extends Model implements HasMedia
         return $this->belongsTo(AssetCategory::class, 'category_id');
     }
 
-    public function getPhotosAttribute()
+    public function asset_model()
     {
-        return $this->getMedia('photos');
+        return $this->belongsTo(AssetModel::class, 'asset_model_id');
+    }
+
+    public function room_attach()
+    {
+        return $this->belongsTo(Room::class, 'room_attach_id');
+    }
+
+    public function manufacturer()
+    {
+        return $this->belongsTo(Manufacturer::class, 'manufacturer_id');
+    }
+
+    public function getPurchaseDateAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
+    }
+
+    public function setPurchaseDateAttribute($value)
+    {
+        $this->attributes['purchase_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
     public function status()
@@ -71,6 +98,11 @@ class Asset extends Model implements HasMedia
     public function location()
     {
         return $this->belongsTo(AssetLocation::class, 'location_id');
+    }
+
+    public function getPhotosAttribute()
+    {
+        return $this->getMedia('photos');
     }
 
     public function assigned_to()

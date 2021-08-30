@@ -22,10 +22,16 @@ class AssetLocation extends Model
 
     protected $fillable = [
         'name',
+        'faculty_id',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
+
+    public function faculty()
+    {
+        return $this->belongsTo(Faculty::class, 'faculty_id');
+    }
 
     protected function serializeDate(DateTimeInterface $date)
     {

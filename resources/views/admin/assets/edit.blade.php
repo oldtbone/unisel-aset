@@ -11,22 +11,8 @@
             @method('PUT')
             @csrf
             <div class="form-group">
-                <label class="required" for="category_id">{{ trans('cruds.asset.fields.category') }}</label>
-                <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id" required>
-                    @foreach($categories as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $asset->category->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('category'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('category') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.asset.fields.category_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="serial_number">{{ trans('cruds.asset.fields.serial_number') }}</label>
-                <input class="form-control {{ $errors->has('serial_number') ? 'is-invalid' : '' }}" type="text" name="serial_number" id="serial_number" value="{{ old('serial_number', $asset->serial_number) }}">
+                <label class="required" for="serial_number">{{ trans('cruds.asset.fields.serial_number') }}</label>
+                <input class="form-control {{ $errors->has('serial_number') ? 'is-invalid' : '' }}" type="text" name="serial_number" id="serial_number" value="{{ old('serial_number', $asset->serial_number) }}" required>
                 @if($errors->has('serial_number'))
                     <div class="invalid-feedback">
                         {{ $errors->first('serial_number') }}
@@ -45,15 +31,80 @@
                 <span class="help-block">{{ trans('cruds.asset.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="photos">{{ trans('cruds.asset.fields.photos') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('photos') ? 'is-invalid' : '' }}" id="photos-dropzone">
-                </div>
-                @if($errors->has('photos'))
+                <label for="asset_tag">{{ trans('cruds.asset.fields.asset_tag') }}</label>
+                <input class="form-control {{ $errors->has('asset_tag') ? 'is-invalid' : '' }}" type="text" name="asset_tag" id="asset_tag" value="{{ old('asset_tag', $asset->asset_tag) }}">
+                @if($errors->has('asset_tag'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('photos') }}
+                        {{ $errors->first('asset_tag') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.asset.fields.photos_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.asset.fields.asset_tag_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="category_id">{{ trans('cruds.asset.fields.category') }}</label>
+                <select class="form-control select2 {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category_id" id="category_id" required>
+                    @foreach($categories as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $asset->category->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('category'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('category') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.asset.fields.category_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="asset_model_id">{{ trans('cruds.asset.fields.asset_model') }}</label>
+                <select class="form-control select2 {{ $errors->has('asset_model') ? 'is-invalid' : '' }}" name="asset_model_id" id="asset_model_id" required>
+                    @foreach($asset_models as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('asset_model_id') ? old('asset_model_id') : $asset->asset_model->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('asset_model'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('asset_model') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.asset.fields.asset_model_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="room_attach_id">{{ trans('cruds.asset.fields.room_attach') }}</label>
+                <select class="form-control select2 {{ $errors->has('room_attach') ? 'is-invalid' : '' }}" name="room_attach_id" id="room_attach_id" required>
+                    @foreach($room_attaches as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('room_attach_id') ? old('room_attach_id') : $asset->room_attach->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('room_attach'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('room_attach') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.asset.fields.room_attach_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="manufacturer_id">{{ trans('cruds.asset.fields.manufacturer') }}</label>
+                <select class="form-control select2 {{ $errors->has('manufacturer') ? 'is-invalid' : '' }}" name="manufacturer_id" id="manufacturer_id" required>
+                    @foreach($manufacturers as $id => $entry)
+                        <option value="{{ $id }}" {{ (old('manufacturer_id') ? old('manufacturer_id') : $asset->manufacturer->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('manufacturer'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('manufacturer') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.asset.fields.manufacturer_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="purchase_date">{{ trans('cruds.asset.fields.purchase_date') }}</label>
+                <input class="form-control date {{ $errors->has('purchase_date') ? 'is-invalid' : '' }}" type="text" name="purchase_date" id="purchase_date" value="{{ old('purchase_date', $asset->purchase_date) }}" required>
+                @if($errors->has('purchase_date'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('purchase_date') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.asset.fields.purchase_date_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="status_id">{{ trans('cruds.asset.fields.status') }}</label>
@@ -92,6 +143,17 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.asset.fields.notes_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="photos">{{ trans('cruds.asset.fields.photos') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('photos') ? 'is-invalid' : '' }}" id="photos-dropzone">
+                </div>
+                @if($errors->has('photos'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('photos') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.asset.fields.photos_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="assigned_to_id">{{ trans('cruds.asset.fields.assigned_to') }}</label>

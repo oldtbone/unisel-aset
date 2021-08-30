@@ -116,17 +116,14 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    order: [[ 2, 'asc' ]],
+    pageLength: 10,
   });
   let table = $('.datatable-AssetCategory:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  $('div#sidebar').on('transitionend', function(e) {
-    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-  })
   
 })
 

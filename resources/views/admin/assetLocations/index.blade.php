@@ -29,6 +29,9 @@
                             {{ trans('cruds.assetLocation.fields.name') }}
                         </th>
                         <th>
+                            {{ trans('cruds.assetLocation.fields.faculty') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -44,6 +47,9 @@
                             </td>
                             <td>
                                 {{ $assetLocation->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $assetLocation->faculty->name ?? '' }}
                             </td>
                             <td>
                                 @can('asset_location_show')
@@ -116,17 +122,14 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    order: [[ 2, 'asc' ]],
+    pageLength: 10,
   });
   let table = $('.datatable-AssetLocation:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  $('div#sidebar').on('transitionend', function(e) {
-    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-  })
   
 })
 

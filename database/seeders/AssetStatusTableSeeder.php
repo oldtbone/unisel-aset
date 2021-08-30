@@ -13,26 +13,26 @@ class AssetStatusTableSeeder extends Seeder
             [
                 'id'         => 1,
                 'name'       => 'Available',
-                'created_at' => '2021-05-18 08:59:56',
-                'updated_at' => '2021-05-18 08:59:56',
+                'created_at' => '2021-06-13 01:33:10',
+                'updated_at' => '2021-06-13 01:33:10',
             ],
             [
                 'id'         => 2,
                 'name'       => 'Not Available',
-                'created_at' => '2021-05-18 08:59:56',
-                'updated_at' => '2021-05-18 08:59:56',
+                'created_at' => '2021-06-13 01:33:10',
+                'updated_at' => '2021-06-13 01:33:10',
             ],
             [
                 'id'         => 3,
                 'name'       => 'Broken',
-                'created_at' => '2021-05-18 08:59:56',
-                'updated_at' => '2021-05-18 08:59:56',
+                'created_at' => '2021-06-13 01:33:10',
+                'updated_at' => '2021-06-13 01:33:10',
             ],
             [
                 'id'         => 4,
                 'name'       => 'Out for Repair',
-                'created_at' => '2021-05-18 08:59:56',
-                'updated_at' => '2021-05-18 08:59:56',
+                'created_at' => '2021-06-13 01:33:10',
+                'updated_at' => '2021-06-13 01:33:10',
             ],
         ];
 

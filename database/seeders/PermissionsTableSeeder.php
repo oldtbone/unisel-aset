@@ -208,6 +208,186 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 50,
+                'title' => 'programme_create',
+            ],
+            [
+                'id'    => 51,
+                'title' => 'programme_edit',
+            ],
+            [
+                'id'    => 52,
+                'title' => 'programme_show',
+            ],
+            [
+                'id'    => 53,
+                'title' => 'programme_delete',
+            ],
+            [
+                'id'    => 54,
+                'title' => 'programme_access',
+            ],
+            [
+                'id'    => 55,
+                'title' => 'manufacturer_create',
+            ],
+            [
+                'id'    => 56,
+                'title' => 'manufacturer_edit',
+            ],
+            [
+                'id'    => 57,
+                'title' => 'manufacturer_show',
+            ],
+            [
+                'id'    => 58,
+                'title' => 'manufacturer_delete',
+            ],
+            [
+                'id'    => 59,
+                'title' => 'manufacturer_access',
+            ],
+            [
+                'id'    => 60,
+                'title' => 'room_type_create',
+            ],
+            [
+                'id'    => 61,
+                'title' => 'room_type_edit',
+            ],
+            [
+                'id'    => 62,
+                'title' => 'room_type_show',
+            ],
+            [
+                'id'    => 63,
+                'title' => 'room_type_delete',
+            ],
+            [
+                'id'    => 64,
+                'title' => 'room_type_access',
+            ],
+            [
+                'id'    => 65,
+                'title' => 'asset_type_create',
+            ],
+            [
+                'id'    => 66,
+                'title' => 'asset_type_edit',
+            ],
+            [
+                'id'    => 67,
+                'title' => 'asset_type_show',
+            ],
+            [
+                'id'    => 68,
+                'title' => 'asset_type_delete',
+            ],
+            [
+                'id'    => 69,
+                'title' => 'asset_type_access',
+            ],
+            [
+                'id'    => 70,
+                'title' => 'asset_model_create',
+            ],
+            [
+                'id'    => 71,
+                'title' => 'asset_model_edit',
+            ],
+            [
+                'id'    => 72,
+                'title' => 'asset_model_show',
+            ],
+            [
+                'id'    => 73,
+                'title' => 'asset_model_delete',
+            ],
+            [
+                'id'    => 74,
+                'title' => 'asset_model_access',
+            ],
+            [
+                'id'    => 75,
+                'title' => 'designation_create',
+            ],
+            [
+                'id'    => 76,
+                'title' => 'designation_edit',
+            ],
+            [
+                'id'    => 77,
+                'title' => 'designation_show',
+            ],
+            [
+                'id'    => 78,
+                'title' => 'designation_delete',
+            ],
+            [
+                'id'    => 79,
+                'title' => 'designation_access',
+            ],
+            [
+                'id'    => 80,
+                'title' => 'room_management_access',
+            ],
+            [
+                'id'    => 81,
+                'title' => 'room_create',
+            ],
+            [
+                'id'    => 82,
+                'title' => 'room_edit',
+            ],
+            [
+                'id'    => 83,
+                'title' => 'room_show',
+            ],
+            [
+                'id'    => 84,
+                'title' => 'room_delete',
+            ],
+            [
+                'id'    => 85,
+                'title' => 'room_access',
+            ],
+            [
+                'id'    => 86,
+                'title' => 'audit_log_show',
+            ],
+            [
+                'id'    => 87,
+                'title' => 'audit_log_access',
+            ],
+            [
+                'id'    => 88,
+                'title' => 'booking_management_access',
+            ],
+            [
+                'id'    => 89,
+                'title' => 'room_booking_create',
+            ],
+            [
+                'id'    => 90,
+                'title' => 'room_booking_edit',
+            ],
+            [
+                'id'    => 91,
+                'title' => 'room_booking_show',
+            ],
+            [
+                'id'    => 92,
+                'title' => 'room_booking_delete',
+            ],
+            [
+                'id'    => 93,
+                'title' => 'room_booking_access',
+            ],
+            [
+                'id'    => 94,
+                'title' => 'room_booking_history_access',
+            ],
+            [
+                'id'    => 95,
                 'title' => 'profile_password_edit',
             ],
         ];

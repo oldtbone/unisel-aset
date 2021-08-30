@@ -20,6 +20,11 @@ class UpdateAssetLocationRequest extends FormRequest
             'name' => [
                 'string',
                 'required',
+                'unique:asset_locations,name,' . request()->route('asset_location')->id,
+            ],
+            'faculty_id' => [
+                'required',
+                'integer',
             ],
         ];
     }

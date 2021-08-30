@@ -7,6 +7,7 @@ use App\Http\Requests\MassDestroyAssetLocationRequest;
 use App\Http\Requests\StoreAssetLocationRequest;
 use App\Http\Requests\UpdateAssetLocationRequest;
 use App\Models\AssetLocation;
+use App\Models\Faculty;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ class AssetLocationController extends Controller
     {
         abort_if(Gate::denies('asset_location_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $assetLocations = AssetLocation::all();
+        $assetLocations = AssetLocation::with(['faculty'])->get();
 
         return view('admin.assetLocations.index', compact('assetLocations'));
     }
@@ -26,7 +27,9 @@ class AssetLocationController extends Controller
     {
         abort_if(Gate::denies('asset_location_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.assetLocations.create');
+        $faculties = Faculty::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.assetLocations.create', compact('faculties'));
     }
 
     public function store(StoreAssetLocationRequest $request)
@@ -40,7 +43,11 @@ class AssetLocationController extends Controller
     {
         abort_if(Gate::denies('asset_location_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.assetLocations.edit', compact('assetLocation'));
+        $faculties = Faculty::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $assetLocation->load('faculty');
+
+        return view('admin.assetLocations.edit', compact('faculties', 'assetLocation'));
     }
 
     public function update(UpdateAssetLocationRequest $request, AssetLocation $assetLocation)
@@ -53,6 +60,8 @@ class AssetLocationController extends Controller
     public function show(AssetLocation $assetLocation)
     {
         abort_if(Gate::denies('asset_location_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $assetLocation->load('faculty');
 
         return view('admin.assetLocations.show', compact('assetLocation'));
     }

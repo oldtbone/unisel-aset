@@ -17,17 +17,37 @@ class StoreAssetRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id' => [
-                'required',
-                'integer',
-            ],
             'serial_number' => [
                 'string',
-                'nullable',
+                'required',
             ],
             'name' => [
                 'string',
                 'required',
+            ],
+            'asset_tag' => [
+                'string',
+                'nullable',
+            ],
+            'category_id' => [
+                'required',
+                'integer',
+            ],
+            'asset_model_id' => [
+                'required',
+                'integer',
+            ],
+            'room_attach_id' => [
+                'required',
+                'integer',
+            ],
+            'manufacturer_id' => [
+                'required',
+                'integer',
+            ],
+            'purchase_date' => [
+                'required',
+                'date_format:' . config('panel.date_format'),
             ],
             'status_id' => [
                 'required',

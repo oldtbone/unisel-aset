@@ -44,15 +44,7 @@
                             {{ trans('cruds.department.fields.faculty') }}
                         </th>
                         <td>
-                            {{ $department->faculty->code ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.department.fields.status') }}
-                        </th>
-                        <td>
-                            {{ App\Models\Department::STATUS_SELECT[$department->status] ?? '' }}
+                            {{ $department->faculty->name ?? '' }}
                         </td>
                     </tr>
                 </tbody>

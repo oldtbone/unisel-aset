@@ -10,7 +10,10 @@ use App\Http\Requests\UpdateAssetRequest;
 use App\Models\Asset;
 use App\Models\AssetCategory;
 use App\Models\AssetLocation;
+use App\Models\AssetModel;
 use App\Models\AssetStatus;
+use App\Models\Manufacturer;
+use App\Models\Room;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
@@ -25,7 +28,7 @@ class AssetController extends Controller
     {
         abort_if(Gate::denies('asset_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $assets = Asset::with(['category', 'status', 'location', 'assigned_to', 'media'])->get();
+        $assets = Asset::with(['category', 'asset_model', 'room_attach', 'manufacturer', 'status', 'location', 'assigned_to', 'media'])->get();
 
         return view('admin.assets.index', compact('assets'));
     }
@@ -36,13 +39,19 @@ class AssetController extends Controller
 
         $categories = AssetCategory::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $asset_models = AssetModel::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $room_attaches = Room::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $manufacturers = Manufacturer::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $statuses = AssetStatus::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $locations = AssetLocation::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $assigned_tos = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.assets.create', compact('categories', 'statuses', 'locations', 'assigned_tos'));
+        return view('admin.assets.create', compact('categories', 'asset_models', 'room_attaches', 'manufacturers', 'statuses', 'locations', 'assigned_tos'));
     }
 
     public function store(StoreAssetRequest $request)
@@ -66,15 +75,21 @@ class AssetController extends Controller
 
         $categories = AssetCategory::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $asset_models = AssetModel::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $room_attaches = Room::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $manufacturers = Manufacturer::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $statuses = AssetStatus::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $locations = AssetLocation::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $assigned_tos = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $asset->load('category', 'status', 'location', 'assigned_to');
+        $asset->load('category', 'asset_model', 'room_attach', 'manufacturer', 'status', 'location', 'assigned_to');
 
-        return view('admin.assets.edit', compact('categories', 'statuses', 'locations', 'assigned_tos', 'asset'));
+        return view('admin.assets.edit', compact('categories', 'asset_models', 'room_attaches', 'manufacturers', 'statuses', 'locations', 'assigned_tos', 'asset'));
     }
 
     public function update(UpdateAssetRequest $request, Asset $asset)
@@ -102,7 +117,7 @@ class AssetController extends Controller
     {
         abort_if(Gate::denies('asset_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $asset->load('category', 'status', 'location', 'assigned_to');
+        $asset->load('category', 'asset_model', 'room_attach', 'manufacturer', 'status', 'location', 'assigned_to');
 
         return view('admin.assets.show', compact('asset'));
     }

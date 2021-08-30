@@ -31,6 +31,14 @@
                             {{ $assetLocation->name }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.assetLocation.fields.faculty') }}
+                        </th>
+                        <td>
+                            {{ $assetLocation->faculty->name ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

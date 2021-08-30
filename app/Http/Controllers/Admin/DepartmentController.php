@@ -11,71 +11,23 @@ use App\Models\Faculty;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Yajra\DataTables\Facades\DataTables;
 
 class DepartmentController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         abort_if(Gate::denies('department_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        if ($request->ajax()) {
-            $query = Department::with(['faculty'])->select(sprintf('%s.*', (new Department())->table));
-            $table = Datatables::of($query);
+        $departments = Department::with(['faculty'])->get();
 
-            $table->addColumn('placeholder', '&nbsp;');
-            $table->addColumn('actions', '&nbsp;');
-
-            $table->editColumn('actions', function ($row) {
-                $viewGate = 'department_show';
-                $editGate = 'department_edit';
-                $deleteGate = 'department_delete';
-                $crudRoutePart = 'departments';
-
-                return view('partials.datatablesActions', compact(
-                'viewGate',
-                'editGate',
-                'deleteGate',
-                'crudRoutePart',
-                'row'
-            ));
-            });
-
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : '';
-            });
-            $table->editColumn('code', function ($row) {
-                return $row->code ? $row->code : '';
-            });
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
-            });
-            $table->addColumn('faculty_code', function ($row) {
-                return $row->faculty ? $row->faculty->code : '';
-            });
-
-            $table->editColumn('faculty.name', function ($row) {
-                return $row->faculty ? (is_string($row->faculty) ? $row->faculty : $row->faculty->name) : '';
-            });
-            $table->editColumn('status', function ($row) {
-                return $row->status ? Department::STATUS_SELECT[$row->status] : '';
-            });
-
-            $table->rawColumns(['actions', 'placeholder', 'faculty']);
-
-            return $table->make(true);
-        }
-
-        $faculties = Faculty::get();
-
-        return view('admin.departments.index', compact('faculties'));
+        return view('admin.departments.index', compact('departments'));
     }
 
     public function create()
     {
         abort_if(Gate::denies('department_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $faculties = Faculty::all()->pluck('code', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $faculties = Faculty::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.departments.create', compact('faculties'));
     }
@@ -91,7 +43,7 @@ class DepartmentController extends Controller
     {
         abort_if(Gate::denies('department_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $faculties = Faculty::all()->pluck('code', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $faculties = Faculty::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $department->load('faculty');
 
