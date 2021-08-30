@@ -27,10 +27,6 @@ class StoreDepartmentRequest extends FormRequest
                 'required',
                 'unique:departments',
             ],
-            'faculty_id' => [
-                'required',
-                'integer',
-            ],
         ];
     }
 }

@@ -15,69 +15,82 @@
     </div>
 
     <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Department">
-            <thead>
-                <tr>
-                    <th width="10">
+        <div class="table-responsive">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Department">
+                <thead>
+                    <tr>
+                        <th width="10">
 
-                    </th>
-                    <th>
-                        {{ trans('cruds.department.fields.id') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.department.fields.code') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.department.fields.name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.department.fields.faculty') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.faculty.fields.name') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.department.fields.status') }}
-                    </th>
-                    <th>
-                        &nbsp;
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                    </td>
-                    <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                    </td>
-                    <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                    </td>
-                    <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                    </td>
-                    <td>
-                        <select class="search">
-                            <option value>{{ trans('global.all') }}</option>
-                            @foreach($faculties as $key => $item)
-                                <option value="{{ $item->code }}">{{ $item->code }}</option>
-                            @endforeach
-                        </select>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                        <select class="search" strict="true">
-                            <option value>{{ trans('global.all') }}</option>
-                            @foreach(App\Models\Department::STATUS_SELECT as $key => $item)
-                                <option value="{{ $key }}">{{ $item }}</option>
-                            @endforeach
-                        </select>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-            </thead>
-        </table>
+                        </th>
+                        <th>
+                            {{ trans('cruds.department.fields.id') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.department.fields.code') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.department.fields.name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.department.fields.faculty') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.faculty.fields.name') }}
+                        </th>
+                        <th>
+                            &nbsp;
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($departments as $key => $department)
+                        <tr data-entry-id="{{ $department->id }}">
+                            <td>
+
+                            </td>
+                            <td>
+                                {{ $department->id ?? '' }}
+                            </td>
+                            <td>
+                                {{ $department->code ?? '' }}
+                            </td>
+                            <td>
+                                {{ $department->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $department->faculty->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $department->faculty->name ?? '' }}
+                            </td>
+                            <td>
+                                @can('department_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.departments.show', $department->id) }}">
+                                        {{ trans('global.view') }}
+                                    </a>
+                                @endcan
+
+                                @can('department_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.departments.edit', $department->id) }}">
+                                        {{ trans('global.edit') }}
+                                    </a>
+                                @endcan
+
+                                @can('department_delete')
+                                    <form action="{{ route('admin.departments.destroy', $department->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                    </form>
+                                @endcan
+
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -90,14 +103,14 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('department_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.departments.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
-          return entry.id
+      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
+          return $(entry).data('entry-id')
       });
 
       if (ids.length === 0) {
@@ -119,55 +132,18 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  let dtOverrideGlobals = {
-    buttons: dtButtons,
-    processing: true,
-    serverSide: true,
-    retrieve: true,
-    aaSorting: [],
-    ajax: "{{ route('admin.departments.index') }}",
-    columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'code', name: 'code' },
-{ data: 'name', name: 'name' },
-{ data: 'faculty_code', name: 'faculty.code' },
-{ data: 'faculty.name', name: 'faculty.name' },
-{ data: 'status', name: 'status' },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
-    ],
+  $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
+    order: [[ 3, 'asc' ]],
     pageLength: 10,
-  };
-  let table = $('.datatable-Department').DataTable(dtOverrideGlobals);
+  });
+  let table = $('.datatable-Department:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-let visibleColumnsIndexes = null;
-$('.datatable thead').on('input', '.search', function () {
-      let strict = $(this).attr('strict') || false
-      let value = strict && this.value ? "^" + this.value + "$" : this.value
-
-      let index = $(this).parent().index()
-      if (visibleColumnsIndexes !== null) {
-        index = visibleColumnsIndexes[index]
-      }
-
-      table
-        .column(index)
-        .search(value, strict)
-        .draw()
-  });
-table.on('column-visibility.dt', function(e, settings, column, state) {
-      visibleColumnsIndexes = []
-      table.columns(":visible").every(function(colIdx) {
-          visibleColumnsIndexes.push(colIdx);
-      });
-  })
-});
+})
 
 </script>
 @endsection

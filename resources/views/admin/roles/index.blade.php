@@ -132,9 +132,6 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  $('div#sidebar').on('transitionend', function(e) {
-    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-  })
   
 })
 

@@ -26,16 +26,28 @@
                             {{ trans('cruds.asset.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.asset.fields.category') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.asset.fields.serial_number') }}
                         </th>
                         <th>
                             {{ trans('cruds.asset.fields.name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.asset.fields.photos') }}
+                            {{ trans('cruds.asset.fields.asset_tag') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.asset.fields.category') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.asset.fields.asset_model') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.asset.fields.room_attach') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.asset.fields.manufacturer') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.asset.fields.purchase_date') }}
                         </th>
                         <th>
                             {{ trans('cruds.asset.fields.status') }}
@@ -45,6 +57,9 @@
                         </th>
                         <th>
                             {{ trans('cruds.asset.fields.notes') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.asset.fields.photos') }}
                         </th>
                         <th>
                             {{ trans('cruds.asset.fields.assigned_to') }}
@@ -64,20 +79,28 @@
                                 {{ $asset->id ?? '' }}
                             </td>
                             <td>
-                                {{ $asset->category->name ?? '' }}
-                            </td>
-                            <td>
                                 {{ $asset->serial_number ?? '' }}
                             </td>
                             <td>
                                 {{ $asset->name ?? '' }}
                             </td>
                             <td>
-                                @foreach($asset->photos as $key => $media)
-                                    <a href="{{ $media->getUrl() }}" target="_blank">
-                                        {{ trans('global.view_file') }}
-                                    </a>
-                                @endforeach
+                                {{ $asset->asset_tag ?? '' }}
+                            </td>
+                            <td>
+                                {{ $asset->category->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $asset->asset_model->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $asset->room_attach->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $asset->manufacturer->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $asset->purchase_date ?? '' }}
                             </td>
                             <td>
                                 {{ $asset->status->name ?? '' }}
@@ -87,6 +110,13 @@
                             </td>
                             <td>
                                 {{ $asset->notes ?? '' }}
+                            </td>
+                            <td>
+                                @foreach($asset->photos as $key => $media)
+                                    <a href="{{ $media->getUrl() }}" target="_blank">
+                                        {{ trans('global.view_file') }}
+                                    </a>
+                                @endforeach
                             </td>
                             <td>
                                 {{ $asset->assigned_to->name ?? '' }}
@@ -162,17 +192,14 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     orderCellsTop: true,
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    order: [[ 3, 'asc' ]],
+    pageLength: 10,
   });
   let table = $('.datatable-Asset:not(.ajaxTable)').DataTable({ buttons: dtButtons })
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  $('div#sidebar').on('transitionend', function(e) {
-    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-  })
   
 })
 
